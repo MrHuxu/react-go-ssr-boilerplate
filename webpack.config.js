@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-// const webpack = require('webpack');
 
 module.exports = {
   mode : 'development',
@@ -60,11 +59,5 @@ module.exports = {
         }
       ]
     }]
-  },
-
-  watchOptions : {
-    poll : true
-  },
-
-  devtool : 'source-map'
+  }
 };
