@@ -66,5 +66,4 @@ module.exports = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   ]
-
 };

@@ -1,10 +1,15 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 
-const App = () => (
-  <div>
-    <h1> Hello SSR! </h1>
-  </div>
-);
+import { Switch, Route, StaticRouter } from 'react-router';
+import routes from './routes';
 
-export const html = renderToString(<App />);
+export const genHtmlString = url => renderToString(
+  <StaticRouter url={ url }>
+    <Switch>
+      { routes.map(route => (
+        <Route { ...route } />
+      )) }
+    </Switch>
+  </StaticRouter>
+);

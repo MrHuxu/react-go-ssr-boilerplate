@@ -8,12 +8,15 @@ import (
 func (s *server) registerRoutes() {
 	s.Engine.GET("/test", func(ctx *gin.Context) {
 		vm := goja.New()
-		v, err := vm.RunString(s.react)
+		_, err := vm.RunString(s.react)
 		if err != nil {
 			panic(err)
 		}
 
-		ctx.Writer.Write([]byte(v.Export().(map[string]interface{})["html"].(string)))
+		var fn func(string) string
+		vm.ExportTo(vm.Get("genHtmlString"), &fn)
+
+		ctx.Writer.Write([]byte(fn(ctx.Request.URL.String())))
 		return
 	})
 }
