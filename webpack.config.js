@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode : 'development',
@@ -59,5 +60,11 @@ module.exports = {
         }
       ]
     }]
-  }
+  },
+
+  plugins : [
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ]
+
 };
