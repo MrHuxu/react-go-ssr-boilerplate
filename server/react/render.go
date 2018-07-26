@@ -1,4 +1,4 @@
-package server
+package react
 
 import (
 	"io/ioutil"
@@ -8,7 +8,7 @@ import (
 	"github.com/dop251/goja"
 )
 
-func (s *server) initRenderFunc() {
+func initRender() {
 	file, err := os.Open("client/public/built/bundle.js")
 	if err != nil {
 		log.Fatal(err)
@@ -16,11 +16,10 @@ func (s *server) initRenderFunc() {
 	defer file.Close()
 	bytes, _ := ioutil.ReadAll(file)
 
-	s.jsVM = goja.New()
-	v, err := s.jsVM.RunString(string(bytes))
+	v, err := VM.RunString(string(bytes))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	s.jsRenderFunc = v.Export().(map[string]interface{})["genHtmlString"].(func(goja.FunctionCall) goja.Value)
+	Render = v.Export().(map[string]interface{})["genHtmlString"].(func(goja.FunctionCall) goja.Value)
 }
