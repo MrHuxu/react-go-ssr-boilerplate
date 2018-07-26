@@ -28,7 +28,11 @@ func RenderHTMLString() gin.HandlerFunc {
 }
 
 func convertResToPageInfo(url string, res interface{}) map[string]interface{} {
-	resMap := res.(map[string]interface{})
+	var resMap map[string]interface{}
+	if m, ok := res.(map[string]interface{}); ok {
+		resMap = m
+	}
+
 	var meta, title, data interface{}
 	if d, ok := resMap["meta"]; ok {
 		meta = d
