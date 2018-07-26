@@ -1,7 +1,7 @@
 import Home from './components/home';
-import Tags from './components/tags';
+import Test from './components/test';
 
 export default [
   { exact: true, path: '/', component: Home },
-  { path: '/tags', component: Tags }
+  { path: '/test', component: Test }
 ];

@@ -1,5 +1,5 @@
 import React from 'react';
-import { shape, arrayOf, string, object, objectOf, number } from 'prop-types';
+import { shape, arrayOf, string, objectOf, number } from 'prop-types';
 import { connect } from 'react-redux';
 
 const Home = ({ data }) => {
@@ -10,11 +10,8 @@ const Home = ({ data }) => {
       <p> Life of xhu >> </p>
       { titles.map(title => (
         <div>
-          <p> { infos[title].seq } </p>
-          <p> { infos[title].title } </p>
-          <p> { infos[title].time } </p>
-          <p> { infos[title].tags.join(',') } </p>
-          <p> { infos[title].content.slice(0, 100) } </p>
+          <p> { title } </p>
+          <p> { infos[title] } </p>
         </div>
       )) }
     </div>
@@ -23,17 +20,11 @@ const Home = ({ data }) => {
 
 Home.propTypes = {
   data : shape({
-    titles : arrayOf(string),
-    infos  : objectOf(shape({
-      seq     : number,
-      title   : string,
-      time    : object,
-      tags    : arrayOf(string),
-      content : string
-    }))
+    list  : arrayOf(string),
+    infos : objectOf(number)
   })
 };
 
-const mapStateToProps = ({ home }) => ({ home });
+const mapStateToProps = ({ home }) => ({ data: home });
 
 export default connect(mapStateToProps)(Home);

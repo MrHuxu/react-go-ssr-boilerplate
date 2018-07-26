@@ -8,8 +8,8 @@ func init() {
 	s := &server{
 		Engine: gin.Default(),
 	}
+	s.initRenderFunc()
 	s.registerRoutes()
-	s.initReact()
 
 	DefaultServer = s
 }

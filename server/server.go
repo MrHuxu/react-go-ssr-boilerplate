@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"github.com/dop251/goja"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,7 +15,8 @@ type Server interface {
 type server struct {
 	*gin.Engine
 
-	react string
+	jsVM         *goja.Runtime
+	jsRenderFunc func(goja.FunctionCall) goja.Value
 }
 
 func (s *server) Run() {
