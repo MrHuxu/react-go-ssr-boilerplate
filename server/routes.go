@@ -7,8 +7,7 @@ import (
 )
 
 func (s *server) registerRoutes() {
-	s.Engine.GET("/", func(ctx *gin.Context) {
-		println("huhu")
+	s.GET("/", func(ctx *gin.Context) {
 		ctx.Set("res", map[string]interface{}{
 			"data": map[string]interface{}{
 				"home": map[string]interface{}{
@@ -19,8 +18,7 @@ func (s *server) registerRoutes() {
 		})
 	})
 
-	s.Engine.GET("/test", func(ctx *gin.Context) {
-		println("hihi")
+	s.GET("/test", func(ctx *gin.Context) {
 		ctx.Set("res", map[string]interface{}{
 			"data": map[string]interface{}{
 				"test": map[string]interface{}{
@@ -31,8 +29,7 @@ func (s *server) registerRoutes() {
 		})
 	})
 
-	s.Engine.GET("/api/test", func(ctx *gin.Context) {
-		println("hehe")
+	s.GET("/api/test", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"test": "this is a test",
 		})
