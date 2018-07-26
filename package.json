@@ -61,8 +61,10 @@
   },
   "scripts": {
     "test": "npm test",
-    "build-fe": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js",
-    "dev-server": "gin --port 8283 --appPort 13109 run main.go"
+    "webpack": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch --progress",
+    "lint": "./node_modules/eslint-watch/bin/esw . --fix --ignore-path .gitignore --ext .jsx --ext .js -w",
+    "dev-server": "gin --port 8283 --appPort 13109 --all -i",
+    "dev": "node ./scripts/dev-server"
   },
   "repository": {
     "type": "git",
