@@ -12,6 +12,7 @@ const Home = ({ data }) => {
         <div>
           <p> { title } </p>
           <p> { infos[title] } </p>
+          <a href="/test"> to test </a>
         </div>
       )) }
     </div>

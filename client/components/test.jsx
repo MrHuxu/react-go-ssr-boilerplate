@@ -8,10 +8,11 @@ const Tags = ({ data }) => {
   return (
     <div>
       { list.map(item => (
-        <p style={ { fontSize: 16 + infos[item] * 2 } }>
+        <p style={ { fontSize: 16 + infos[item] * 10 } }>
           { item }
         </p>
       )) }
+      <a href="/"> back to home </a>
     </div>
   );
 };
