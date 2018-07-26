@@ -8,7 +8,7 @@ import (
 	"github.com/dop251/goja"
 )
 
-func initRender() {
+func initRenderer() {
 	file, err := os.Open("client/public/built/bundle.js")
 	if err != nil {
 		log.Fatal(err)

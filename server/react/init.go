@@ -11,5 +11,5 @@ var (
 
 func init() {
 	initVM()
-	initRender()
+	initRenderer()
 }

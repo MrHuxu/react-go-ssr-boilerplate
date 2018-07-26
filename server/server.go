@@ -13,15 +13,6 @@ import (
 
 var DefaultServer Server
 
-func init() {
-	s := &server{
-		Engine: gin.Default(),
-	}
-	s.registerRoutes()
-
-	DefaultServer = s
-}
-
 type Server interface {
 	Run()
 }
@@ -44,4 +35,14 @@ func (s *server) renderHTMLString(url string, data interface{}) string {
 	dataVal, _ := react.VM.RunString(fmt.Sprintf("'%s'", string(bytes)))
 
 	return react.Render(goja.FunctionCall{Arguments: []goja.Value{urlVal, dataVal}}).String()
+}
+
+func init() {
+	s := &server{
+		Engine: gin.Default(),
+	}
+	s.LoadHTMLGlob(conf.Conf.Web.TemplatesPath)
+	s.registerRoutes()
+
+	DefaultServer = s
 }

@@ -11,7 +11,8 @@ var Conf conf
 
 type conf struct {
 	Web struct {
-		Port int `json:"port,omitempty"`
+		Port          int    `json:"port,omitempty"`
+		TemplatesPath string `json:"templates_path,omitempty"`
 	} `json:"web,omitempty"`
 }
 
