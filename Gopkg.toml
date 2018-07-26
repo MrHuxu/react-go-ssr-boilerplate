@@ -9,6 +9,12 @@ required = ["github.com/codegangsta/gin"]
   branch = "master"
   source = "github.com/golang/text"
 
+
+[[override]]
+  name = "golang.org/x/sys"
+  branch = "master"
+  source = "github.com/golang/sys"
+
 [[constraint]]
   name = "github.com/gin-gonic/gin"
   version = "1.2.0"
