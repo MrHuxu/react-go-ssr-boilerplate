@@ -7,16 +7,23 @@ import { createStaticStore } from './store';
 import { Switch, Route, StaticRouter } from 'react-router';
 import routes from './routes';
 
-export const genHtmlString = (url, data) => {
-  return renderToString(
-    <Provider store={ createStaticStore(data) }>
-      <StaticRouter location={ url }>
-        <Switch>
-          { routes.map(route => (
-            <Route { ...route } />
-          )) }
-        </Switch>
-      </StaticRouter>
-    </Provider>
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+const sheet = new ServerStyleSheet();
+
+export const renderHtmlString = (url, data) => {
+  const html = renderToString(
+    <StyleSheetManager sheet={ sheet.instance }>
+      <Provider store={ createStaticStore(data) }>
+        <StaticRouter location={ url }>
+          <Switch>
+            { routes.map(route => (
+              <Route { ...route } />
+            )) }
+          </Switch>
+        </StaticRouter>
+      </Provider>
+    </StyleSheetManager>
   );
+  const styles = sheet.getStyleTags();
+  return html + styles;
 };

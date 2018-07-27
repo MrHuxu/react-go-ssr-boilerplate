@@ -22,26 +22,24 @@ func RenderHTMLString() gin.HandlerFunc {
 			return
 		}
 
-		var pageInfo map[string]interface{}
-		defer func() {
-			ctx.HTML(http.StatusOK, "index.tmpl", gin.H(pageInfo))
-		}()
-
-		status := ctx.Writer.Status()
-		if status != 200 {
-			urlVal, _ := react.VM.RunString(fmt.Sprintf("'/%d'", status))
-			pageInfo = map[string]interface{}{
-				"meta":  fmt.Sprintf("%d Error", status),
-				"title": "Error Happened!",
-				"body":  template.HTML(react.Render(goja.FunctionCall{Arguments: []goja.Value{urlVal}}).String()),
-			}
-			return
-		}
-
-		res, _ := ctx.Get("res")
-		pageInfo = convertResToPageInfo(ctx.Request.URL, res)
-		return
+		pageInfo := getPageInfo(ctx)
+		ctx.HTML(http.StatusOK, "index.tmpl", gin.H(pageInfo))
 	}
+}
+
+func getPageInfo(ctx *gin.Context) map[string]interface{} {
+	status := ctx.Writer.Status()
+	if status != 200 {
+		urlVal, _ := react.VM.RunString(fmt.Sprintf("'/%d'", status))
+		return map[string]interface{}{
+			"meta":  fmt.Sprintf("%d Error", status),
+			"title": "Error Happened!",
+			"body":  template.HTML(react.Render(goja.FunctionCall{Arguments: []goja.Value{urlVal}}).String()),
+		}
+	}
+
+	res, _ := ctx.Get("res")
+	return convertResToPageInfo(ctx.Request.URL, res)
 }
 
 func convertResToPageInfo(url *url.URL, res interface{}) map[string]interface{} {

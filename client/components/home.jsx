@@ -1,12 +1,20 @@
 import React from 'react';
 import { shape, arrayOf, string, objectOf, number } from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+
+const HomeContainer = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(20deg, rgb(219, 112, 147), #daa357);
+`;
 
 const Home = ({ data }) => {
   const { titles, infos } = data;
 
   return (
-    <div>
+    <HomeContainer>
       <p> Life of xhu >> </p>
       { titles.map(title => (
         <div>
@@ -15,7 +23,7 @@ const Home = ({ data }) => {
           <a href="/test"> to test </a>
         </div>
       )) }
-    </div>
+    </HomeContainer>
   );
 };
 

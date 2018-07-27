@@ -21,5 +21,5 @@ func initRenderer() {
 		log.Fatal(err)
 	}
 
-	Render = v.Export().(map[string]interface{})["genHtmlString"].(func(goja.FunctionCall) goja.Value)
+	Render = v.Export().(map[string]interface{})["renderHtmlString"].(func(goja.FunctionCall) goja.Value)
 }
