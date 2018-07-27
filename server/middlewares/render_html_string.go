@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/dop251/goja"
@@ -21,13 +22,29 @@ func RenderHTMLString() gin.HandlerFunc {
 			return
 		}
 
+		var pageInfo map[string]interface{}
+		defer func() {
+			ctx.HTML(http.StatusOK, "index.tmpl", gin.H(pageInfo))
+		}()
+
+		status := ctx.Writer.Status()
+		if status != 200 {
+			urlVal, _ := react.VM.RunString(fmt.Sprintf("'/%d'", status))
+			pageInfo = map[string]interface{}{
+				"meta":  fmt.Sprintf("%d Error", status),
+				"title": "Error Happened!",
+				"body":  template.HTML(react.Render(goja.FunctionCall{Arguments: []goja.Value{urlVal}}).String()),
+			}
+			return
+		}
+
 		res, _ := ctx.Get("res")
-		pageInfo := convertResToPageInfo(ctx.Request.URL.String(), res)
-		ctx.HTML(http.StatusOK, "index.tmpl", gin.H(pageInfo))
+		pageInfo = convertResToPageInfo(ctx.Request.URL, res)
+		return
 	}
 }
 
-func convertResToPageInfo(url string, res interface{}) map[string]interface{} {
+func convertResToPageInfo(url *url.URL, res interface{}) map[string]interface{} {
 	var resMap map[string]interface{}
 	if m, ok := res.(map[string]interface{}); ok {
 		resMap = m

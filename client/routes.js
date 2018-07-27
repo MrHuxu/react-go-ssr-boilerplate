@@ -5,5 +5,6 @@ import NoMatch from './components/404';
 export default [
   { exact: true, path: '/', component: Home },
   { path: '/test', component: Test },
-  { component: NoMatch }
+
+  { path: '/404', component: NoMatch }
 ];
