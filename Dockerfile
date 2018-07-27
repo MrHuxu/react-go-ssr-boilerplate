@@ -15,6 +15,7 @@ ENV PATH $PATH:/nodejs/bin
 WORKDIR /go/src/github.com/MrHuxu/react-go-ssr-boilerplate
 
 COPY . /go/src/github.com/MrHuxu/react-go-ssr-boilerplate
+RUN go get -u github.com/golang/dep/cmd/dep
 RUN npm install && dep ensure -v
 RUN npm run build
 
