@@ -5,7 +5,7 @@ const { floor, max } = Math;
 
 const dashboard = screen({
   smartCSR : true,
-  title    : 'React & Go Boilerplate Dashboard'
+  title    : 'React & Go SSR Boilerplate Dashboard'
 });
 
 const commands = [{
