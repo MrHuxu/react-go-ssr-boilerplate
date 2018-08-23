@@ -7,7 +7,6 @@ const TestContainer = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  background: linear-gradient(20deg, #566994, #9AFFFF);
 `;
 
 const Test = ({ data }) => {
