@@ -53,6 +53,8 @@ func getPageInfoFromRes(url string, res interface{}) map[string]interface{} {
 	}
 	if d, ok := resMap["data"]; ok {
 		pageInfo["body"] = template.HTML(react.Render(url, d))
+	} else {
+		pageInfo["body"] = template.HTML(react.Render(url, nil))
 	}
 	return pageInfo
 }
