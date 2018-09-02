@@ -25,5 +25,5 @@ export const renderHtmlString = (url, data) => {
     </StyleSheetManager>
   );
   const styles = sheet.getStyleTags();
-  return html + styles;
+  return styles + html;
 };
