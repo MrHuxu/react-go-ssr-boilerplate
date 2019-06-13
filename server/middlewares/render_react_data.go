@@ -3,7 +3,6 @@ package middlewares
 import (
 	"fmt"
 	"html/template"
-	"net/http"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -21,7 +20,7 @@ func RenderReactData() gin.HandlerFunc {
 		}
 
 		pageInfo := getPageInfo(ctx)
-		ctx.HTML(http.StatusOK, "index.tmpl", gin.H(pageInfo))
+		ctx.HTML(ctx.Writer.Status(), "index.tmpl", gin.H(pageInfo))
 	}
 }
 
@@ -31,7 +30,7 @@ func getPageInfo(ctx *gin.Context) map[string]interface{} {
 		return map[string]interface{}{
 			"meta":  fmt.Sprintf("%d Error", status),
 			"title": "Error Happened!",
-			"body":  template.HTML(react.Render(ctx.Request.URL.String(), nil)),
+			"body":  template.HTML(react.Render(fmt.Sprintf("/%d", status), nil)),
 		}
 	}
 
@@ -54,6 +53,8 @@ func getPageInfoFromRes(url string, res interface{}) map[string]interface{} {
 	}
 	if d, ok := resMap["data"]; ok {
 		pageInfo["body"] = template.HTML(react.Render(url, d))
+	} else {
+		pageInfo["body"] = template.HTML(react.Render(url, nil))
 	}
 	return pageInfo
 }

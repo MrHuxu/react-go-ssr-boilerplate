@@ -7,7 +7,6 @@ const HomeContainer = styled.div`
   position: fixed;
   width: 100%;
   height: 100%;
-  background: linear-gradient(20deg, rgb(219, 112, 147), #daa357);
 `;
 
 const Home = ({ data }) => {
