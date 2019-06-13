@@ -5,8 +5,8 @@ import (
 )
 
 // VM exports the instance of js runtime
-var VM *goja.Runtime
+var vm *goja.Runtime
 
 func initVM() {
-	VM = goja.New()
+	vm = goja.New()
 }

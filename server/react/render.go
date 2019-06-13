@@ -13,7 +13,7 @@ import (
 var jsRender func(goja.FunctionCall) goja.Value
 
 func initRenderer() {
-	file, err := os.Open("client/public/built/bundle.js")
+	file, err := os.Open("client/public/bundle.js")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -21,7 +21,7 @@ func initRenderer() {
 
 	bytes, _ := ioutil.ReadAll(file)
 
-	v, err := VM.RunString(string(bytes))
+	v, err := vm.RunString(string(bytes))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func initRenderer() {
 
 // Render renders the react data to html string
 func Render(url string, data interface{}) string {
-	urlVal, err := VM.RunString(fmt.Sprintf("'%s'", url))
+	urlVal, err := vm.RunString(fmt.Sprintf("'%s'", url))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,7 +40,7 @@ func Render(url string, data interface{}) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dataVal, err := VM.RunString(fmt.Sprintf("'%s'", string(bytes)))
+	dataVal, err := vm.RunString(fmt.Sprintf("'%s'", string(bytes)))
 	if err != nil {
 		log.Fatal(err)
 	}
