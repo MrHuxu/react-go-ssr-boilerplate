@@ -1,22 +1,38 @@
-FROM golang:latest
+FROM node:11.15.0 AS node-builder
 
-EXPOSE 13109
+WORKDIR /work
+COPY ./client /work/client
+COPY ./package.json /work/
+COPY ./package-lock.json /work/
+COPY ./config/webpack.config.js /work/config/
 
-ENV NODE_VER 10.7.0
+RUN npm install
+RUN ./node_modules/webpack/bin/webpack.js --config config/webpack.config.js
+
+FROM golang:latest AS go-builder
+
+ENV GO111MODULE on
+ENV CGO_ENABLED 0
+
+WORKDIR /go/src/github.com/MrHuxu/react-go-ssr-boilerplate
+COPY ./main.go /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/
+COPY ./server /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/server
+COPY ./go.mod /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/
+COPY ./go.sum /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/
+
+RUN go mod download
+RUN go build main.go
+
+FROM scratch
+
 ENV GIN_MODE release
 ENV INSIDE_DOCKER true
 
-RUN apt-get update -y && \
-  apt-get install --no-install-recommends -y -q curl python build-essential git ca-certificates
+WORKDIR /output
+COPY ./config/server.json /output/config/
+COPY ./server/templates /output/server/templates
+COPY --from=node-builder /work/client/public/bundle.js /output/client/public/
+COPY --from=go-builder /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/main /output/
 
-RUN mkdir /nodejs && curl http://nodejs.org/dist/v${NODE_VER}/node-v${NODE_VER}-linux-x64.tar.gz | tar xvzf - -C /nodejs --strip-components=1
-ENV PATH $PATH:/nodejs/bin
-
-WORKDIR /go/src/github.com/MrHuxu/react-go-ssr-boilerplate
-
-COPY . /go/src/github.com/MrHuxu/react-go-ssr-boilerplate
-RUN go get -u github.com/golang/dep/cmd/dep
-RUN npm install && dep ensure -v
-RUN npm run build
-
+EXPOSE 13109
 ENTRYPOINT [ "./main" ]

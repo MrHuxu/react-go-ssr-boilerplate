@@ -12,7 +12,7 @@ import (
 var jsRender func(goja.FunctionCall) goja.Value
 
 func initRenderer() {
-	file, err := os.Open("client/public/built/bundle.js")
+	file, err := os.Open("client/public/bundle.js")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,7 +20,7 @@ func initRenderer() {
 
 	bytes, _ := ioutil.ReadAll(file)
 
-	v, err := VM.RunString(string(bytes))
+	v, err := vm.RunString(string(bytes))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -33,5 +33,5 @@ func Render(url string, data interface{}) string {
 	var m map[string]interface{}
 	bytes, _ := json.Marshal(data)
 	json.Unmarshal(bytes, &m)
-	return jsRender(goja.FunctionCall{Arguments: []goja.Value{VM.ToValue(url), VM.ToValue(m)}}).String()
+	return jsRender(goja.FunctionCall{Arguments: []goja.Value{vm.ToValue(url), vm.ToValue(m)}}).String()
 }
