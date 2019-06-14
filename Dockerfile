@@ -1,5 +1,7 @@
 FROM node:11.15.0 AS node-builder
 
+ENV NODE_ENV production
+
 WORKDIR /work
 COPY ./client /work/client
 COPY ./package.json /work/
@@ -14,11 +16,11 @@ FROM golang:latest AS go-builder
 ENV GO111MODULE on
 ENV CGO_ENABLED 0
 
-WORKDIR /go/src/github.com/MrHuxu/react-go-ssr-boilerplate
-COPY ./main.go /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/
-COPY ./server /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/server
-COPY ./go.mod /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/
-COPY ./go.sum /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/
+WORKDIR /work
+COPY ./main.go /work/
+COPY ./server /work/server
+COPY ./go.mod /work/
+COPY ./go.sum /work/
 
 RUN go mod download
 RUN go build main.go
@@ -32,7 +34,7 @@ WORKDIR /output
 COPY ./config/server.json /output/config/
 COPY ./server/templates /output/server/templates
 COPY --from=node-builder /work/client/public/bundle.js /output/client/public/
-COPY --from=go-builder /go/src/github.com/MrHuxu/react-go-ssr-boilerplate/main /output/
+COPY --from=go-builder /work/main /output/
 
 EXPOSE 13109
 ENTRYPOINT [ "./main" ]

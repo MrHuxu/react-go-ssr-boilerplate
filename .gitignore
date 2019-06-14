@@ -6,7 +6,7 @@ debug
 gin-bin
 log/
 vendor/
-client/public/built/
+client/public/bundle.js
 
 .sass-cache
 npm-debug.log

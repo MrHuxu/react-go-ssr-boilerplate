@@ -3,6 +3,23 @@
   "version": "0.0.1",
   "description": "A boilerplate for building go&react app using ssr",
   "main": "main.go",
+  "scripts": {
+    "test": "npm test",
+    "webpack": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch --progress",
+    "lint": "./node_modules/eslint-watch/bin/esw . --fix --ignore-path .gitignore --ext .jsx --ext .js -w",
+    "dev-server": "gin --port 8283 --appPort 13109 --all -i",
+    "dev": "node ./scripts/dev-server",
+    "build-fe": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js",
+    "build-be": "go build main.go",
+    "build": "npm run build-fe && npm run build-be",
+    "prd": "npm run build && GIN_MODE=release ./main"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/MrHuxu/react-go-ssr-boilerplate"
+  },
+  "author": "MrHuxu (hxtheone@gmail.com)",
+  "license": "MIT",
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -29,7 +46,8 @@
     "style-loader": "^0.23.1",
     "styled-components": "^4.3.1",
     "url-loader": "^2.0.0",
-    "webpack": "^4.34.0"
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -44,24 +62,6 @@
     "eslint-plugin-promise": "^4.1.1",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-watch": "^5.1.2",
-    "webpack-cli": "^3.3.4"
-  },
-  "scripts": {
-    "test": "npm test",
-    "webpack": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js --watch --progress",
-    "lint": "./node_modules/eslint-watch/bin/esw . --fix --ignore-path .gitignore --ext .jsx --ext .js -w",
-    "dev-server": "gin --port 8283 --appPort 13109 --all -i",
-    "dev": "node ./scripts/dev-server",
-    "build-fe": "./node_modules/webpack/bin/webpack.js --config config/webpack.config.js",
-    "build-be": "go build main.go",
-    "build": "npm run build-fe && npm run build-be",
-    "prd": "npm run build && GIN_MODE=release ./main"
-  },
-  "repository": {
-    "type": "git",
-    "url": "github.com/MrHuxu/react-go-ssr-boilerplate"
-  },
-  "author": "MrHuxu (hxtheone@gmail.com)",
-  "license": "MIT"
+    "eslint-watch": "^5.1.2"
+  }
 }
